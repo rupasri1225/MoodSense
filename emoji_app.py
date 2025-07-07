@@ -15,7 +15,6 @@ st.markdown("""
 
         .main-container {
             background-color: #ffffff;
-            margin-top: 2rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             max-width: 100%;
