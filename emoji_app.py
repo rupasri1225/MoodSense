@@ -2,17 +2,85 @@ import streamlit as st
 from textblob import TextBlob
 import datetime
 
-# --- App Config ---
-st.set_page_config(page_title="MoodSense", page_icon="😊", layout="centered")
+# --- Page Config ---
+st.set_page_config(page_title="MoodSense 😊", layout="centered")
 
-# --- Title ---
-st.title("🌟 MoodSense: AI-Powered Emoji Mood Detector")
-st.markdown("Enter your text below, and let AI detect your current emotion!")
+# --- Custom CSS Styling ---
+st.markdown("""
+    <style>
+        html, body {
+            background-color: #f3f4f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .main-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            max-width: 100%;
+        }
+
+        .stTextInput input {
+            background-color: #fffdf7;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .stButton button {
+            background-color: #0a8754;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            width: 100%;
+            transition: 0.3s ease-in-out;
+        }
+
+        .stButton button:hover {
+            background-color: #0c9c61;
+        }
+
+        .emoji-output {
+            font-size: 48px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            .stTextInput input {
+                font-size: 15px;
+            }
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- Layout Container ---
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
+
+# --- Title & Description ---
+st.markdown("<h1 style='text-align: center;'>😊 MoodSense</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center; color: #0a8754;'>AI-Powered Emoji Mood Detector</h4>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Analyze your emotion based on what you type!</p>", unsafe_allow_html=True)
 
 # --- User Input ---
-user_input = st.text_area("💬 Type your message here:")
+user_input = st.text_input("✏️ Enter your message:")
 
-# --- Function to detect mood ---
+# --- Mood Detection Function ---
 def get_emoji_and_mood(sentiment):
     if sentiment > 0.1:
         return "😄", "Happy"
@@ -21,14 +89,18 @@ def get_emoji_and_mood(sentiment):
     else:
         return "😐", "Neutral"
 
-# --- Main Logic ---
+# --- Output Section ---
 if user_input:
     blob = TextBlob(user_input)
     sentiment = blob.sentiment.polarity
     emoji, mood = get_emoji_and_mood(sentiment)
 
     st.markdown("### 🧠 Mood Analysis Result")
-    st.write(f"**Mood:** {mood}")
-    st.write(f"**Emoji:** {emoji}")
-    st.write(f"**Sentiment Score:** {sentiment:.2f}")
+    st.markdown(f"<div class='emoji-output'>{emoji}</div>", unsafe_allow_html=True)
+    st.success(f"**Mood:** {mood}")
+    st.info(f"**Sentiment Score:** {sentiment:.2f}")
     st.caption(f"Analyzed on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+# --- Footer Branding ---
+st.markdown("</div>", unsafe_allow_html=True)
+st.markdown('<div class="footer">Designed with 💚 by <b>Yarramsetti Rupa Sri</b></div>', unsafe_allow_html=True)
